@@ -8,7 +8,7 @@
 #define T(i, j) (T[(i)*(n_cells+2) + (j)])
 #define T_new(i, j) (T_new[(i)*(n_cells+2) + (j)])
 
-double MAX_RESIDUAL = 1.e-15;
+double MAX_RESIDUAL = 1.e-8;
 
 void kernel(double *T, int n_cells, int max_iterations);
 void write_to_csv(double *T, int n_cells, const char *filename);
@@ -16,7 +16,7 @@ void write_to_csv(double *T, int n_cells, const char *filename);
 int main(int argc, char *argv[]){
 
 	int n_cells = 1000;
-	int max_iterations = 100;
+	int max_iterations = 100000000;
 
 	int SIZE = (n_cells + 2) * (n_cells + 2);
 
@@ -54,7 +54,7 @@ void kernel (double *T, int n_cells, int max_iterations) {
 
 	double *T_new = (double *)malloc(SIZE * sizeof(double));
 	
-	while (residual > MAX_RESIDUAL && iteration < max_iterations) {
+	while (residual > MAX_RESIDUAL) {
 		residual = 0.0;
 
 		for (unsigned i = 1; i <= n_cells; i++) {
